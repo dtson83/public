@@ -93,6 +93,7 @@ Switch2(config-if-<1/1/6,1/1/7>)# exit
 # VLAN
 ```
 6100(config)# vlan 5,7-9
+  exit
 6100(config)# interface 1/1/5,1/1/7-1/1/9
 6100(config-if-<1/1/5,1/1/7-1/1/9>)# vlan access 5
 6100(config)# interface 1/1/10
