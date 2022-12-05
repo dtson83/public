@@ -129,23 +129,14 @@ Trường hợp 3: Cấu hình VLAN native là VLAN 1 có option tag, và có ch
 ```
 dhcp-server pool "Test-2"
  default-router "10.10.1.1"
- network 10.10.1.0 255.255.255.0
  option 43 ascii "10.80.2.201"
  option 60 ascii "ArubaAP"
- range 10.10.1.10 10.10.1.100
+ range 10.10.1.10 10.10.1.100 prefix-length 24
 ```
 # DHCP realay
 ```
-vlan 200
- name "DHCP-RELAY-EDGE-1"
- untagged 15
- ip address 20.1.1.1 255.255.255.0
- ip helper-address 70.70.70.5
- exit
-vlan 300
- name "DHCP-RELAY-EDGE-2"
- untagged 16
- ip address 30.1.1.1 255.255.255.0
+ip interface vlan 200
+ ip address 20.1.1.1/24
  ip helper-address 70.70.70.5
  exit
  ```
@@ -170,8 +161,7 @@ switch(config)# snmp-server community Lab8899X
 # Configure the AOS switch IP address of the out-of-band management port:
 - By default, the management interface is set to automatically obtain an IP address from a DHCP server, and SSH support is enabled. If there is no DHCP server on your network, you must configure a static address on the management interface:
 ```
-AOS-switch(config)# oobm enable
-AOS-switch(config)# oobm ip address 10.2.100.68 255.255.255.0
-AOS-switch(config)# oobm ip default-gateway 10.2.100.1
-AOS-switch(config)# save
+interface mgmt
+  ip static 10.9.0.2 255.255.255.0
+  no shut
 ```
